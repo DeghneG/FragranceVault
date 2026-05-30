@@ -829,7 +829,7 @@ function createStars() {
   const starCount = 150;
   for (let i = 0; i < starCount; i++) {
     const star = document.createElement("div");
-    star.className = "star";
+    star.className = "bg-star";
     
     // Random position
     star.style.left = Math.random() * 100 + "vw";

@@ -297,7 +297,7 @@ button {
   pointer-events: none;
 }
 
-.star {
+.bg-star {
   position: absolute;
   background: #fff;
   border-radius: 50%;
