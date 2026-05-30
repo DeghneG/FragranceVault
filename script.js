@@ -717,7 +717,21 @@ async function loadData() {
       .order('id', { ascending: true })
       .then(({ data, error }) => {
         if (!error && data && data.length > 0) {
-          collection = data;
+          // Deduplicate by name and clean up the database
+          const uniqueData = [];
+          const seenNames = new Set();
+          
+          data.forEach(item => {
+            if (!seenNames.has(item.name)) {
+              seenNames.add(item.name);
+              uniqueData.push(item);
+            } else {
+              // Automatically delete the duplicate from the real database
+              supabaseClient.from('fragrances').delete().eq('id', item.id).then();
+            }
+          });
+          
+          collection = uniqueData;
           localStorage.setItem('localFragrances', JSON.stringify(collection));
           updateStats();
           renderCollection("all");
