@@ -455,7 +455,10 @@ addForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = document.getElementById("frag-name").value.trim();
-  const brand = document.getElementById("frag-brand").value.trim();
+  let brand = document.getElementById("frag-brand").value.trim();
+  if (brand && !brand.toLowerCase().startsWith("by ")) {
+    brand = "By " + brand;
+  }
   const notes = document.getElementById("frag-notes").value.trim();
   const familyCheckboxes = document.querySelectorAll("#frag-family-group input[type='checkbox']:checked");
   const family = Array.from(familyCheckboxes).map(cb => cb.value);
