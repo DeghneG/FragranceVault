@@ -1472,3 +1472,73 @@ button {
 .pill-checkbox:hover .pill-text {
   border-color: rgba(201, 168, 76, 0.5);
 }
+
+/* ===== MUSIC PROMPT ===== */
+.music-prompt {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 10, 12, 0.95);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.music-prompt.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.music-prompt p {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--gold-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.btn-music-ok {
+  padding: 1rem 3rem;
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+  color: var(--bg-primary);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(188, 149, 72, 0.3);
+}
+
+.btn-music-ok:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(188, 149, 72, 0.6);
+}
+
+.music-prompt-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 3rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.music-prompt-close:hover {
+  color: var(--gold-primary);
+}

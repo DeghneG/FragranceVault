@@ -773,10 +773,26 @@ const btnMute = document.getElementById("btn-mute");
 const volumeSlider = document.getElementById("volume-slider");
 const iconSoundOn = document.getElementById("icon-sound-on");
 const iconSoundOff = document.getElementById("icon-sound-off");
+const musicPrompt = document.getElementById("music-prompt");
+const btnCloseMusic = document.getElementById("btn-close-music");
+const btnStartMusic = document.getElementById("btn-start-music");
 let isMuted = false;
 
 if (audio && btnMute && volumeSlider) {
-  audio.volume = 0.5;
+  audio.volume = 0.15;
+  
+  if (musicPrompt && btnCloseMusic && btnStartMusic) {
+    btnCloseMusic.addEventListener("click", () => {
+      musicPrompt.classList.remove("active");
+    });
+    
+    btnStartMusic.addEventListener("click", () => {
+      musicPrompt.classList.remove("active");
+      if (!isMuted) {
+        audio.play().catch(e => console.log("Playback prevented"));
+      }
+    });
+  }
 
   btnMute.addEventListener("click", () => {
     isMuted = !isMuted;
@@ -803,19 +819,6 @@ if (audio && btnMute && volumeSlider) {
     }
   });
 
-  // Autoplay fallback on first interaction
-  const startAudio = () => {
-    if (audio.paused && !isMuted) {
-      audio.play().catch(e => console.log("Autoplay prevented"));
-    }
-    document.removeEventListener("click", startAudio);
-  };
-  
-  // Try autoplay immediately
-  audio.play().catch(e => {
-    console.log("Autoplay prevented by browser, waiting for user click.");
-    document.addEventListener("click", startAudio);
-  });
 }
 
 /* ===== STARRY BACKGROUND ===== */
