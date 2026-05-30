@@ -123,6 +123,8 @@ const lightboxImg = document.getElementById("lightbox-img");
 const lightboxName = document.getElementById("lightbox-name");
 const lightboxNotes = document.getElementById("lightbox-notes");
 const lightboxCloseBtn = document.getElementById("lightbox-close");
+const searchInput = document.getElementById("search-input");
+let searchQuery = "";
 
 /* ===== RENDER CARDS ===== */
 function renderStars(rating) {
@@ -141,16 +143,30 @@ function renderStars(rating) {
   return html;
 }
 
+function getSettingIcon(setting) {
+  switch (setting) {
+    case "Day": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+    case "Date Night": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+    case "Night Out": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>`;
+    case "School": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
+    case "Office": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`;
+    default: return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`;
+  }
+}
+
 function createCard(frag, index) {
   const card = document.createElement("article");
   card.className = "frag-card";
   card.style.animationDelay = `${index * 0.07}s`;
   card.setAttribute("data-family", frag.family);
+  
+  const settingValue = frag.setting || "Versatile";
 
   card.innerHTML = `
     <span class="frag-card-badge">${frag.type}</span>
     <div class="frag-card-image">
       <img src="${frag.image}" alt="${frag.name} fragrance bottle" loading="lazy" />
+      <span class="frag-card-setting">${getSettingIcon(settingValue)} ${settingValue}</span>
     </div>
     <div class="frag-card-body">
       <h3 class="frag-card-name">${frag.name}</h3>
@@ -242,14 +258,22 @@ function createCard(frag, index) {
 }
 
 function renderCollection() {
-  let filtered = activeFilters.has("all")
-    ? [...collection]
-    : collection.filter(f => {
-      if (Array.isArray(f.family)) {
-        return f.family.some(family => activeFilters.has(family));
-      }
-      return activeFilters.has(f.family);
+  let filtered = collection;
+  
+  if (!activeFilters.has("all")) {
+    filtered = filtered.filter(f => {
+      const fragFamily = Array.isArray(f.family) ? f.family : [f.family];
+      return Array.from(activeFilters).every(filter => fragFamily.includes(filter));
     });
+  }
+  
+  if (searchQuery.trim() !== "") {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(f => 
+      f.name.toLowerCase().includes(q) || 
+      f.notes.toLowerCase().includes(q)
+    );
+  }
 
   const sortSelect = document.getElementById("sort-select");
   const currentSort = sortSelect ? sortSelect.value : "default";
@@ -340,7 +364,14 @@ filterBtns.forEach(btn => {
   });
 });
 
-/* ===== SORT LOGIC ===== */
+/* ===== SEARCH & SORT LOGIC ===== */
+if (searchInput) {
+  searchInput.addEventListener("input", (e) => {
+    searchQuery = e.target.value;
+    renderCollection();
+  });
+}
+
 const sortSelect = document.getElementById("sort-select");
 if (sortSelect) {
   sortSelect.addEventListener("change", () => {
@@ -381,6 +412,7 @@ function openModal(fragToEdit = null) {
     document.getElementById("frag-notes").value = (fragToEdit.tags || []).join(" / ");
     
     document.getElementById("frag-type").value = fragToEdit.type || "EDP";
+    document.getElementById("frag-setting").value = fragToEdit.setting || "Versatile";
     
     const familyCheckboxes = document.querySelectorAll("#frag-family-group input[type='checkbox']");
     familyCheckboxes.forEach(cb => {
@@ -488,9 +520,10 @@ addForm.addEventListener("submit", async (e) => {
   const type = document.getElementById("frag-type").value;
   const longevity = parseInt(document.getElementById("longevity-range").value);
   const sillage = parseInt(document.getElementById("sillage-range").value);
-  const scent = parseInt(document.getElementById("scent-range").value);
+  const scent = parseInt(document.getElementById("scent-range").value) || 8;
   const rating = parseFloat(document.getElementById("frag-rating").value);
   const imageInput = document.getElementById("frag-image");
+  const setting = document.getElementById("frag-setting").value;
 
   // When editing, image is optional
   if (!name || !brand || !notes) return;
@@ -563,6 +596,7 @@ addForm.addEventListener("submit", async (e) => {
     sillage,
     tags: notes.split("/").map(s => s.trim()),
     image: imageUrl,
+    setting: setting,
     season: "Year Round"
   };
 
