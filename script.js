@@ -103,7 +103,7 @@ const fragrances = [
 ];
 
 /* ===== STATE ===== */
-let currentFilter = "all";
+let activeFilters = new Set(["all"]);
 let collection = [];
 let nextId = fragrances.length + 1;
 
@@ -233,7 +233,7 @@ function createCard(frag, index) {
       collection = collection.filter(c => c.id !== frag.id);
       localStorage.setItem('localFragrances', JSON.stringify(collection)); // Update local storage
       updateStats();
-      renderCollection(currentFilter);
+      renderCollection();
       showToast(isCloudError ? "Removed from local vault." : `${frag.name} deleted.`);
     }
   });
@@ -241,14 +241,14 @@ function createCard(frag, index) {
   return card;
 }
 
-function renderCollection(filter = "all") {
-  let filtered = filter === "all"
+function renderCollection() {
+  let filtered = activeFilters.has("all")
     ? [...collection]
     : collection.filter(f => {
       if (Array.isArray(f.family)) {
-        return f.family.includes(filter);
+        return f.family.some(family => activeFilters.has(family));
       }
-      return f.family === filter;
+      return activeFilters.has(f.family);
     });
 
   const sortSelect = document.getElementById("sort-select");
@@ -309,11 +309,34 @@ function updateStats() {
 /* ===== FILTER LOGIC ===== */
 filterBtns.forEach(btn => {
   btn.addEventListener("click", () => {
-    // Remove active from all
-    filterBtns.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentFilter = btn.dataset.filter;
-    renderCollection(currentFilter);
+    const filter = btn.dataset.filter;
+    
+    if (filter === "all") {
+      activeFilters.clear();
+      activeFilters.add("all");
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    } else {
+      if (activeFilters.has("all")) {
+        activeFilters.delete("all");
+        document.querySelector('.filter-btn[data-filter="all"]').classList.remove("active");
+      }
+      
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        btn.classList.remove("active");
+      } else {
+        activeFilters.add(filter);
+        btn.classList.add("active");
+      }
+      
+      if (activeFilters.size === 0) {
+        activeFilters.add("all");
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add("active");
+      }
+    }
+    
+    renderCollection();
   });
 });
 
@@ -321,7 +344,7 @@ filterBtns.forEach(btn => {
 const sortSelect = document.getElementById("sort-select");
 if (sortSelect) {
   sortSelect.addEventListener("change", () => {
-    renderCollection(currentFilter);
+    renderCollection();
   });
 }
 
@@ -598,7 +621,7 @@ addForm.addEventListener("submit", async (e) => {
   }
 
   updateStats();
-  renderCollection(currentFilter);
+  renderCollection();
   closeModal();
   
   // Reset button state
@@ -710,7 +733,7 @@ async function loadData() {
     collection = [...fragrances];
   }
   updateStats();
-  renderCollection("all");
+  renderCollection();
 
   // 2. Attempt cloud sync in the background (doesn't block the screen)
   if (supabaseClient) {
@@ -737,15 +760,114 @@ async function loadData() {
           collection = uniqueData;
           localStorage.setItem('localFragrances', JSON.stringify(collection));
           updateStats();
-          renderCollection("all");
+          renderCollection();
         }
       })
       .catch(err => console.error("Background cloud fetch failed:", err));
   }
 }
 
+/* ===== AUDIO PLAYER ===== */
+const audio = document.getElementById("theme-audio");
+const btnMute = document.getElementById("btn-mute");
+const volumeSlider = document.getElementById("volume-slider");
+const iconSoundOn = document.getElementById("icon-sound-on");
+const iconSoundOff = document.getElementById("icon-sound-off");
+let isMuted = false;
+
+if (audio && btnMute && volumeSlider) {
+  audio.volume = 0.5;
+
+  btnMute.addEventListener("click", () => {
+    isMuted = !isMuted;
+    audio.muted = isMuted;
+    if (isMuted) {
+      iconSoundOn.style.display = "none";
+      iconSoundOff.style.display = "block";
+    } else {
+      iconSoundOn.style.display = "block";
+      iconSoundOff.style.display = "none";
+      // Ensure audio plays if it was paused
+      if (audio.paused) {
+        audio.play().catch(e => console.log("Autoplay prevented"));
+      }
+    }
+  });
+
+  volumeSlider.addEventListener("input", (e) => {
+    audio.volume = e.target.value;
+    if (audio.volume > 0 && isMuted) {
+      btnMute.click();
+    } else if (audio.volume == 0 && !isMuted) {
+      btnMute.click();
+    }
+  });
+
+  // Autoplay fallback on first interaction
+  const startAudio = () => {
+    if (audio.paused && !isMuted) {
+      audio.play().catch(e => console.log("Autoplay prevented"));
+    }
+    document.removeEventListener("click", startAudio);
+  };
+  document.addEventListener("click", startAudio);
+}
+
+/* ===== STARRY BACKGROUND ===== */
+function createStars() {
+  const container = document.getElementById("stars-container");
+  if (!container) return;
+
+  const starCount = 150;
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
+    
+    // Random position
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "vh";
+    
+    // Random size (1px to 2px)
+    const size = Math.random() < 0.8 ? "1px" : "2px";
+    star.style.width = size;
+    star.style.height = size;
+    
+    // Random opacity and animation
+    star.style.opacity = Math.random() * 0.8 + 0.2;
+    
+    container.appendChild(star);
+  }
+}
+
+function createShootingStar() {
+  const container = document.getElementById("stars-container");
+  if (!container) return;
+  
+  const shoot = document.createElement("div");
+  shoot.className = "shooting-star";
+  
+  // Start from upper right
+  shoot.style.top = (Math.random() * 30 - 10) + "vh";
+  shoot.style.right = (Math.random() * 40 - 20) + "vw";
+  
+  // Animate
+  shoot.style.animation = "shoot 1.5s ease-out forwards";
+  
+  container.appendChild(shoot);
+  
+  setTimeout(() => {
+    if (container.contains(shoot)) shoot.remove();
+  }, 2000);
+}
+
+// Start shooting star every 20 seconds
+setInterval(createShootingStar, 20000);
+// Wait a bit and show the first one to test
+setTimeout(createShootingStar, 5000);
+
 /* ===== INITIALIZE ===== */
 document.addEventListener("DOMContentLoaded", async () => {
+  createStars();
   await loadData();
 
   // Observe cards after render
