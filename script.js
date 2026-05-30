@@ -1,6 +1,6 @@
 /* ===== SUPABASE CONFIGURATION ===== */
 // Paste your Supabase credentials here:
-const SUPABASE_URL = "https://ubirtvcrlmvobylhxhie.supabaseClient.co";
+const SUPABASE_URL = "https://ubirtvcrlmvobylhxhie.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InViaXJ0dmNybG12b2J5bGh4aGllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxMTYwOTUsImV4cCI6MjA5NTY5MjA5NX0.GCid8TifFckn1MAWz0_WcqBGs-TmBK19a3VCxgg2diI";
 
 let supabaseClient = null;
