@@ -158,13 +158,16 @@ function createCard(frag, index) {
   card.style.animationDelay = `${index * 0.07}s`;
   card.setAttribute("data-family", frag.family);
   
-  const settingValue = frag.setting || "Versatile";
+  const settingValue = frag.setting;
+  const settingHtml = (settingValue && settingValue !== "Versatile") 
+    ? `<span class="frag-card-setting">${getSettingIcon(settingValue)} ${settingValue}</span>` 
+    : '';
 
   card.innerHTML = `
     <span class="frag-card-badge">${frag.type}</span>
     <div class="frag-card-image">
       <img src="${frag.image}" alt="${frag.name} fragrance bottle" loading="lazy" />
-      <span class="frag-card-setting">${getSettingIcon(settingValue)} ${settingValue}</span>
+      ${settingHtml}
     </div>
     <div class="frag-card-body">
       <h3 class="frag-card-name">${frag.name}</h3>
@@ -410,7 +413,7 @@ function openModal(fragToEdit = null) {
     document.getElementById("frag-notes").value = (fragToEdit.tags || []).join(" / ");
     
     document.getElementById("frag-type").value = fragToEdit.type || "EDP";
-    document.getElementById("frag-setting").value = fragToEdit.setting || "Versatile";
+    document.getElementById("frag-setting").value = (fragToEdit.setting && fragToEdit.setting !== "Versatile") ? fragToEdit.setting : "Day";
     
     const familyCheckboxes = document.querySelectorAll("#frag-family-group input[type='checkbox']");
     familyCheckboxes.forEach(cb => {
