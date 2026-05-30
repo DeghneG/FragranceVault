@@ -810,7 +810,12 @@ if (audio && btnMute && volumeSlider) {
     }
     document.removeEventListener("click", startAudio);
   };
-  document.addEventListener("click", startAudio);
+  
+  // Try autoplay immediately
+  audio.play().catch(e => {
+    console.log("Autoplay prevented by browser, waiting for user click.");
+    document.addEventListener("click", startAudio);
+  });
 }
 
 /* ===== STARRY BACKGROUND ===== */
