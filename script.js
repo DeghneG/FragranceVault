@@ -147,7 +147,7 @@ function getSettingIcon(setting) {
   switch (setting) {
     case "Day": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     case "Date Night": return ``;
-    case "School": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
+    case "School / Office / Everyday": return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`;
     default: return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`;
   }
 }
@@ -157,10 +157,10 @@ function createCard(frag, index) {
   card.className = "frag-card";
   card.style.animationDelay = `${index * 0.07}s`;
   card.setAttribute("data-family", frag.family);
-  
+
   const settingValue = frag.setting;
-  const settingHtml = (settingValue && settingValue !== "Versatile") 
-    ? `<span class="frag-card-setting">${getSettingIcon(settingValue)} ${settingValue}</span>` 
+  const settingHtml = (settingValue && settingValue !== "Versatile")
+    ? `<span class="frag-card-setting">${getSettingIcon(settingValue)} ${settingValue}</span>`
     : '';
 
   card.innerHTML = `
@@ -260,18 +260,18 @@ function createCard(frag, index) {
 
 function renderCollection() {
   let filtered = collection;
-  
+
   if (!activeFilters.has("all")) {
     filtered = filtered.filter(f => {
       const fragFamily = Array.isArray(f.family) ? f.family : [f.family];
       return Array.from(activeFilters).every(filter => fragFamily.includes(filter));
     });
   }
-  
+
   if (searchQuery.trim() !== "") {
     const q = searchQuery.toLowerCase();
-    filtered = filtered.filter(f => 
-      f.name.toLowerCase().includes(q) || 
+    filtered = filtered.filter(f =>
+      f.name.toLowerCase().includes(q) ||
       f.notes.toLowerCase().includes(q)
     );
   }
@@ -339,7 +339,7 @@ function updateStats() {
 filterBtns.forEach(btn => {
   btn.addEventListener("click", () => {
     const filter = btn.dataset.filter;
-    
+
     if (filter === "all") {
       activeFilters.clear();
       activeFilters.add("all");
@@ -350,7 +350,7 @@ filterBtns.forEach(btn => {
         activeFilters.delete("all");
         document.querySelector('.filter-btn[data-filter="all"]').classList.remove("active");
       }
-      
+
       if (activeFilters.has(filter)) {
         activeFilters.delete(filter);
         btn.classList.remove("active");
@@ -358,13 +358,13 @@ filterBtns.forEach(btn => {
         activeFilters.add(filter);
         btn.classList.add("active");
       }
-      
+
       if (activeFilters.size === 0) {
         activeFilters.add("all");
         document.querySelector('.filter-btn[data-filter="all"]').classList.add("active");
       }
     }
-    
+
     renderCollection();
   });
 });
@@ -403,7 +403,7 @@ let currentImageUrl = "";
 function openModal(fragToEdit = null) {
   modalOverlay.classList.add("active");
   document.body.style.overflow = "hidden"; // Prevent background scrolling
-  
+
   const modalTitle = modalOverlay.querySelector("h2");
   addForm.reset();
 
@@ -411,14 +411,14 @@ function openModal(fragToEdit = null) {
     editingFragId = fragToEdit.id;
     currentImageUrl = fragToEdit.image || "";
     modalTitle.textContent = "Edit Fragrance";
-    
+
     document.getElementById("frag-name").value = fragToEdit.name || "";
     document.getElementById("frag-brand").value = fragToEdit.notes || "";
     document.getElementById("frag-notes").value = (fragToEdit.tags || []).join(" / ");
-    
+
     document.getElementById("frag-type").value = fragToEdit.type || "EDP";
     document.getElementById("frag-setting").value = (fragToEdit.setting && fragToEdit.setting !== "Versatile") ? fragToEdit.setting : "Day";
-    
+
     const familyCheckboxes = document.querySelectorAll("#frag-family-group input[type='checkbox']");
     familyCheckboxes.forEach(cb => {
       cb.checked = Array.isArray(fragToEdit.family) ? fragToEdit.family.includes(cb.value) : fragToEdit.family === cb.value;
@@ -437,18 +437,18 @@ function openModal(fragToEdit = null) {
     document.getElementById("scent-val").textContent = scentVal;
 
     document.getElementById("frag-rating").value = fragToEdit.rating || 4;
-    
+
     // Image not required when editing
     document.getElementById("frag-image").removeAttribute("required");
   } else {
     editingFragId = null;
     currentImageUrl = "";
     modalTitle.textContent = "Add Fragrance";
-    
+
     document.getElementById("longevity-val").textContent = "5";
     document.getElementById("sillage-val").textContent = "5";
     document.getElementById("scent-val").textContent = "8";
-    
+
     // Image is required when adding
     document.getElementById("frag-image").setAttribute("required", "true");
   }
@@ -609,7 +609,7 @@ addForm.addEventListener("submit", async (e) => {
 
   if (editingFragId) {
     newFrag.id = editingFragId;
-    
+
     if (supabaseClient) {
       try {
         const { error } = await supabaseClient
@@ -622,7 +622,7 @@ addForm.addEventListener("submit", async (e) => {
         isCloudError = true;
       }
     }
-    
+
     // Update local collection
     const index = collection.findIndex(c => c.id === editingFragId);
     if (index !== -1) {
@@ -630,7 +630,7 @@ addForm.addEventListener("submit", async (e) => {
     }
     localStorage.setItem('localFragrances', JSON.stringify(collection));
     showToast(isCloudError ? "Edits saved to local vault." : `${name} updated!`);
-    
+
   } else {
     if (supabaseClient) {
       try {
@@ -639,7 +639,7 @@ addForm.addEventListener("submit", async (e) => {
           .insert([newFrag])
           .select();
         if (error) throw error;
-        
+
         if (data && data.length > 0) {
           collection.push(data[0]);
         } else {
@@ -662,7 +662,7 @@ addForm.addEventListener("submit", async (e) => {
   updateStats();
   renderCollection();
   closeModal();
-  
+
   // Reset button state
   btnSubmit.innerHTML = originalBtnText;
   btnSubmit.disabled = false;
@@ -785,7 +785,7 @@ async function loadData() {
           // Deduplicate by name and clean up the database
           const uniqueData = [];
           const seenNames = new Set();
-          
+
           data.forEach(item => {
             if (!seenNames.has(item.name)) {
               seenNames.add(item.name);
@@ -795,7 +795,7 @@ async function loadData() {
               supabaseClient.from('fragrances').delete().eq('id', item.id).then();
             }
           });
-          
+
           collection = uniqueData;
           localStorage.setItem('localFragrances', JSON.stringify(collection));
           updateStats();
@@ -819,12 +819,12 @@ let isMuted = false;
 
 if (audio && btnMute && volumeSlider) {
   audio.volume = 0.15;
-  
+
   if (musicPrompt && btnCloseMusic && btnStartMusic) {
     btnCloseMusic.addEventListener("click", () => {
       musicPrompt.classList.remove("active");
     });
-    
+
     btnStartMusic.addEventListener("click", () => {
       musicPrompt.classList.remove("active");
       if (!isMuted) {
@@ -869,19 +869,19 @@ function createStars() {
   for (let i = 0; i < starCount; i++) {
     const star = document.createElement("div");
     star.className = "bg-star";
-    
+
     // Random position
     star.style.left = Math.random() * 100 + "vw";
     star.style.top = Math.random() * 100 + "vh";
-    
+
     // Random size (1px to 2px)
     const size = Math.random() < 0.8 ? "1px" : "2px";
     star.style.width = size;
     star.style.height = size;
-    
+
     // Random opacity and animation
     star.style.opacity = Math.random() * 0.8 + 0.2;
-    
+
     container.appendChild(star);
   }
 }
@@ -889,19 +889,19 @@ function createStars() {
 function createShootingStar() {
   const container = document.getElementById("stars-container");
   if (!container) return;
-  
+
   const shoot = document.createElement("div");
   shoot.className = "shooting-star";
-  
+
   // Start from upper right
   shoot.style.top = (Math.random() * 30 - 10) + "vh";
   shoot.style.right = (Math.random() * 40 - 20) + "vw";
-  
+
   // Animate
   shoot.style.animation = "shoot 1.5s ease-out forwards";
-  
+
   container.appendChild(shoot);
-  
+
   setTimeout(() => {
     if (container.contains(shoot)) shoot.remove();
   }, 2000);
