@@ -283,6 +283,10 @@ function renderCollection() {
     filtered.sort((a, b) => a.name.localeCompare(b.name));
   } else if (currentSort === "za") {
     filtered.sort((a, b) => b.name.localeCompare(a.name));
+  } else if (currentSort === "longest") {
+    filtered.sort((a, b) => parseInt(b.longevity || 0) - parseInt(a.longevity || 0));
+  } else if (currentSort === "best") {
+    filtered.sort((a, b) => (b.scent || 0) - (a.scent || 0));
   } else {
     filtered.sort((a, b) => a.id - b.id);
   }
