@@ -339,48 +339,61 @@ button {
 .btn-add {
   position: relative;
   overflow: hidden;
+  font-family: var(--font-body);
   font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--text-primary);
-  background-color: var(--bg-surface);
-  padding: 0 1.2rem;
-  height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #171717;
+  padding: 0.6em 1.6em;
+  border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* 5 animated circles — each carries its own offset via CSS custom prop */
 .btn-add span:not(:last-child) {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
   height: 30px;
   width: 30px;
-  background-color: #0c66ed;
+  background-color: #c9a84c;
   border-radius: 50%;
-  transition: .6s ease;
+  pointer-events: none;
+  /* transform uses per-span custom props, falls back to centered */
+  transform: translate(var(--ox), var(--oy));
+  transition: transform 0.6s ease;
+}
+
+/* Each circle's resting position — no specificity clash with hover */
+.btn-add span:nth-child(1) { --ox: -3.3em; --oy: -4em;  }
+.btn-add span:nth-child(2) { --ox: -6em;   --oy: 1.3em; }
+.btn-add span:nth-child(3) { --ox: -0.2em; --oy: 1.8em; }
+.btn-add span:nth-child(4) { --ox: 3.5em;  --oy: 1.4em; }
+.btn-add span:nth-child(5) { --ox: 3.5em;  --oy: -3.8em;}
+
+/* On hover — override the custom props so all circles converge to center */
+.btn-add:hover span:nth-child(1),
+.btn-add:hover span:nth-child(2),
+.btn-add:hover span:nth-child(3),
+.btn-add:hover span:nth-child(4),
+.btn-add:hover span:nth-child(5) {
+  --ox: -50%;
+  --oy: -50%;
+  transform: translate(-50%, -50%) scale(4);
+  transition: transform 1.5s ease;
 }
 
 .btn-add span:last-child {
   position: relative;
-}
-
-.btn-add span:nth-child(1) { transform: translate(-3.3em, -4em); }
-.btn-add span:nth-child(2) { transform: translate(-6em, 1.3em); }
-.btn-add span:nth-child(3) { transform: translate(-.2em, 1.8em); }
-.btn-add span:nth-child(4) { transform: translate(3.5em, 1.4em); }
-.btn-add span:nth-child(5) { transform: translate(3.5em, -3.8em); }
-
-.btn-add:hover span:not(:last-child) {
-  transform: translate(-50%, -50%) scale(4);
-  transition: 1.5s ease;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ===== HERO SECTION ===== */
