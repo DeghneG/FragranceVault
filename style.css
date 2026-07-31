@@ -378,23 +378,23 @@ button {
 }
 
 .btn-add .circle:nth-child(1) {
-  transform: translate(-1.5em, -2em);
+  transform: translate(calc(-50% - 60px), calc(-50% - 40px));
 }
 
 .btn-add .circle:nth-child(2) {
-  transform: translate(-2.5em, 0.5em);
+  transform: translate(calc(-50% - 60px), calc(-50% + 40px));
 }
 
 .btn-add .circle:nth-child(3) {
-  transform: translate(-0.2em, 1.2em);
+  transform: translate(calc(-50% + 0px), calc(-50% - 45px));
 }
 
 .btn-add .circle:nth-child(4) {
-  transform: translate(1.5em, 0.5em);
+  transform: translate(calc(-50% + 60px), calc(-50% + 40px));
 }
 
 .btn-add .circle:nth-child(5) {
-  transform: translate(1.5em, -2em);
+  transform: translate(calc(-50% + 60px), calc(-50% - 40px));
 }
 
 .btn-add:hover .circle {
