@@ -382,8 +382,8 @@ button {
 .btn-add span:nth-child(5) { transform: translate(3.5em, -3.8em); }
 
 .btn-add:hover span:not(:last-child) {
-  transform: translate(-50%, -50%) scale(4);
-  transition: 1.5s ease;
+  transform: translate(-50%, -50%) scale(4) !important;
+  transition: 1.5s ease !important;
 }
 
 /* ===== HERO SECTION ===== */
