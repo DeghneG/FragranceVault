@@ -337,6 +337,8 @@ button {
 }
 
 .btn-add {
+  position: relative;
+  overflow: hidden;
   font-weight: 700;
   color: var(--text-primary);
   background-color: var(--bg-surface);
@@ -344,9 +346,7 @@ button {
   height: 38px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-full);
-  position: relative;
   cursor: pointer;
-  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -356,7 +356,7 @@ button {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-add .circle {
+.btn-add span:not(:last-child) {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -366,44 +366,24 @@ button {
   background-color: var(--gold-primary);
   border-radius: 50%;
   transition: .6s ease;
-  z-index: 0;
   pointer-events: none;
 }
 
-.btn-add .text {
+.btn-add span:last-child {
   position: relative;
   z-index: 1;
-  transition: color 0.3s ease;
   pointer-events: none;
 }
 
-.btn-add .circle:nth-child(1) {
-  transform: translate(calc(-50% - 60px), calc(-50% - 40px));
-}
+.btn-add span:nth-child(1) { transform: translate(-3.3em, -4em); }
+.btn-add span:nth-child(2) { transform: translate(-6em, 1.3em); }
+.btn-add span:nth-child(3) { transform: translate(-.2em, 1.8em); }
+.btn-add span:nth-child(4) { transform: translate(3.5em, 1.4em); }
+.btn-add span:nth-child(5) { transform: translate(3.5em, -3.8em); }
 
-.btn-add .circle:nth-child(2) {
-  transform: translate(calc(-50% - 60px), calc(-50% + 40px));
-}
-
-.btn-add .circle:nth-child(3) {
-  transform: translate(calc(-50% + 0px), calc(-50% - 45px));
-}
-
-.btn-add .circle:nth-child(4) {
-  transform: translate(calc(-50% + 60px), calc(-50% + 40px));
-}
-
-.btn-add .circle:nth-child(5) {
-  transform: translate(calc(-50% + 60px), calc(-50% - 40px));
-}
-
-.btn-add:hover .circle {
-  transform: translate(-50%, -50%) scale(5) !important;
-  transition: 0.8s ease;
-}
-
-.btn-add:hover .text {
-  color: var(--bg-primary);
+.btn-add:hover span:not(:last-child) {
+  transform: translate(-50%, -50%) scale(4);
+  transition: 1.5s ease;
 }
 
 /* ===== HERO SECTION ===== */
