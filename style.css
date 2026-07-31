@@ -354,30 +354,37 @@ button {
   justify-content: center;
   align-items: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1; /* Keep text and effects constrained within stacking context */
 }
 
 .btn-add span:not(:last-child) {
   position: absolute;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
   height: 30px;
   width: 30px;
   background-color: #c9a84c;
   border-radius: 50%;
-  pointer-events: none;
+  transition: .6s ease;
+  z-index: -1; /* Place below text */
 }
 
 .btn-add span:last-child {
   position: relative;
   z-index: 1;
-  pointer-events: none;
 }
 
 .btn-add span:nth-child(1) { transform: translate(-3.3em, -4em); }
-.btn-add span:nth-child(2) { transform: translate(-6em,   1.3em); }
-.btn-add span:nth-child(3) { transform: translate(-.2em,  1.8em); }
-.btn-add span:nth-child(4) { transform: translate(3.5em,  1.4em); }
+.btn-add span:nth-child(2) { transform: translate(-6em, 1.3em); }
+.btn-add span:nth-child(3) { transform: translate(-.2em, 1.8em); }
+.btn-add span:nth-child(4) { transform: translate(3.5em, 1.4em); }
 .btn-add span:nth-child(5) { transform: translate(3.5em, -3.8em); }
+
+.btn-add:hover span:not(:last-child) {
+  transform: translate(-50%, -50%) scale(4);
+  transition: 1.5s ease;
+}
 
 /* ===== HERO SECTION ===== */
 .hero {
