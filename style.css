@@ -569,6 +569,11 @@ button {
   /* No gold styling, no shadow */
 }
 
+select option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
 .filter-bar {
   display: flex;
   flex-direction: column;
