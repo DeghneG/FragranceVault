@@ -356,7 +356,6 @@ button {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* 5 animated circles — each carries its own offset via CSS custom prop */
 .btn-add span:not(:last-child) {
   position: absolute;
   left: 50%;
@@ -366,28 +365,6 @@ button {
   background-color: #c9a84c;
   border-radius: 50%;
   pointer-events: none;
-  /* transform uses per-span custom props, falls back to centered */
-  transform: translate(var(--ox), var(--oy));
-  transition: transform 0.6s ease;
-}
-
-/* Each circle's resting position — no specificity clash with hover */
-.btn-add span:nth-child(1) { --ox: -3.3em; --oy: -4em;  }
-.btn-add span:nth-child(2) { --ox: -6em;   --oy: 1.3em; }
-.btn-add span:nth-child(3) { --ox: -0.2em; --oy: 1.8em; }
-.btn-add span:nth-child(4) { --ox: 3.5em;  --oy: 1.4em; }
-.btn-add span:nth-child(5) { --ox: 3.5em;  --oy: -3.8em;}
-
-/* On hover — override the custom props so all circles converge to center */
-.btn-add:hover span:nth-child(1),
-.btn-add:hover span:nth-child(2),
-.btn-add:hover span:nth-child(3),
-.btn-add:hover span:nth-child(4),
-.btn-add:hover span:nth-child(5) {
-  --ox: -50%;
-  --oy: -50%;
-  transform: translate(-50%, -50%) scale(4);
-  transition: transform 1.5s ease;
 }
 
 .btn-add span:last-child {
@@ -395,6 +372,12 @@ button {
   z-index: 1;
   pointer-events: none;
 }
+
+.btn-add span:nth-child(1) { transform: translate(-3.3em, -4em); }
+.btn-add span:nth-child(2) { transform: translate(-6em,   1.3em); }
+.btn-add span:nth-child(3) { transform: translate(-.2em,  1.8em); }
+.btn-add span:nth-child(4) { transform: translate(3.5em,  1.4em); }
+.btn-add span:nth-child(5) { transform: translate(3.5em, -3.8em); }
 
 /* ===== HERO SECTION ===== */
 .hero {

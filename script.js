@@ -959,3 +959,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }, 500);
 });
+
+// ===== ADD NEW BUTTON HOVER ANIMATION =====
+(function () {
+  const btn = document.getElementById('btn-add-new');
+  if (!btn) return;
+
+  const circles = Array.from(btn.querySelectorAll('span:not(:last-child)'));
+
+  // Resting positions matching the original Uiverse coordinates
+  const restPositions = [
+    'translate(-3.3em, -4em)',
+    'translate(-6em, 1.3em)',
+    'translate(-.2em, 1.8em)',
+    'translate(3.5em, 1.4em)',
+    'translate(3.5em, -3.8em)',
+  ];
+
+  // Set initial transforms
+  circles.forEach((c, i) => {
+    c.style.transition = 'transform 0.6s ease';
+    c.style.transform = restPositions[i];
+  });
+
+  btn.addEventListener('mouseenter', () => {
+    circles.forEach(c => {
+      c.style.transition = 'transform 1.5s ease';
+      c.style.transform = 'translate(-50%, -50%) scale(4)';
+    });
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    circles.forEach((c, i) => {
+      c.style.transition = 'transform 0.6s ease';
+      c.style.transform = restPositions[i];
+    });
+  });
+})();
