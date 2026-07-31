@@ -27,7 +27,7 @@ const fragrances = [
     longevity: "9+",
     sillage: 7,
     tags: ["Elegant", "Clean", "Soapy"],
-    image: "snowy.jpg",
+    image: "assets/images/snowy.jpg",
     season: "Fall / Winter"
   },
   {
@@ -41,7 +41,7 @@ const fragrances = [
     longevity: "9+",
     sillage: 8,
     tags: ["Luxurious", "Fresh", "Citrusy"],
-    image: "snow.jpg",
+    image: "assets/images/snow.jpg",
     season: "Year Round"
   },
   {
@@ -55,7 +55,7 @@ const fragrances = [
     longevity: "12+",
     sillage: 9,
     tags: ["Sweet", "Vanilla", "Pear"],
-    image: "Li.jpg",
+    image: "assets/images/Li.jpg",
     season: "Year Round",
   },
   {
@@ -69,7 +69,7 @@ const fragrances = [
     longevity: "9+",
     sillage: 10,
     tags: ["Mango", "Tropical", "Woody", "Fruity"],
-    image: "Fe.jpg",
+    image: "assets/images/Fe.jpg",
     season: "Year Round",
   },
   {
@@ -83,7 +83,7 @@ const fragrances = [
     longevity: "4+",
     sillage: 5,
     tags: ["Clean", "Fresh", "GreenApple"],
-    image: "gre.jpg",
+    image: "assets/images/gre.jpg",
     season: "Year Round",
   },
   {
@@ -97,7 +97,7 @@ const fragrances = [
     longevity: "2+",
     sillage: 3,
     tags: ["Fresh", "Citrusy", "Woody"],
-    image: "ws.jpg",
+    image: "assets/images/ws.jpg",
     season: "Year Round"
   },
   {

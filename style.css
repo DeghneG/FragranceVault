@@ -739,7 +739,6 @@ select option {
 }
 
 .frag-card:hover {
-  transform: translateY(-8px) scale(1.015);
   border-color: var(--gold-primary);
   box-shadow:
     var(--shadow-lg),
