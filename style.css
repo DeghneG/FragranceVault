@@ -363,16 +363,13 @@ button {
   transform: translate(-50%, -50%);
   height: 30px;
   width: 30px;
-  background-color: var(--gold-primary);
+  background-color: #0c66ed;
   border-radius: 50%;
   transition: .6s ease;
-  pointer-events: none;
 }
 
 .btn-add span:last-child {
   position: relative;
-  z-index: 1;
-  pointer-events: none;
 }
 
 .btn-add span:nth-child(1) { transform: translate(-3.3em, -4em); }
@@ -382,8 +379,8 @@ button {
 .btn-add span:nth-child(5) { transform: translate(3.5em, -3.8em); }
 
 .btn-add:hover span:not(:last-child) {
-  transform: translate(-50%, -50%) scale(4) !important;
-  transition: 1.5s ease !important;
+  transform: translate(-50%, -50%) scale(4);
+  transition: 1.5s ease;
 }
 
 /* ===== HERO SECTION ===== */
