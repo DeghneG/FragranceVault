@@ -99,13 +99,32 @@ const fragrances = [
     tags: ["Fresh", "Citrusy", "Woody"],
     image: "ws.jpg",
     season: "Year Round"
+  },
+  {
+    // Shane's pick — noted March 3 | Scored by Shane: 3
+    id: 7,
+    name: "Sample Fragrance",        // TODO: replace with real name
+    notes: "By Sample Brand",        // TODO: replace with real brand
+    family: ["fresh"],               // TODO: update scent family
+    type: "EDP",
+    rating: 3,                       // Shane's score
+    scent: 6,
+    longevity: "6+",
+    sillage: 5,
+    tags: ["Sample", "To Be Updated"],
+    image: "sample.jpg",             // TODO: replace with real image
+    season: "Year Round",
+    setting: "Day",
+    addedBy: "Deghne",
+    scoredBy: "Shane",
+    dateNoted: "March 3"
   }
 ];
 
 /* ===== STATE ===== */
 let activeFilters = new Set(["all"]);
 let collection = [];
-let nextId = fragrances.length + 1;
+let nextId = fragrances.length + 1; // = 8
 
 /* ===== DOM ELEMENTS ===== */
 const grid = document.getElementById("collection-grid");
@@ -368,6 +387,22 @@ filterBtns.forEach(btn => {
     renderCollection();
   });
 });
+
+/* ===== FILTER EXPAND LOGIC ===== */
+const expandBtn = document.getElementById("filter-expand-btn");
+const expandedGroups = document.getElementById("filter-expanded-groups");
+
+if (expandBtn && expandedGroups) {
+  expandBtn.addEventListener("click", () => {
+    if (expandedGroups.style.display === "none") {
+      expandedGroups.style.display = "flex";
+      expandBtn.textContent = "Show less";
+    } else {
+      expandedGroups.style.display = "none";
+      expandBtn.textContent = "+9 more";
+    }
+  });
+}
 
 /* ===== SEARCH & SORT LOGIC ===== */
 if (searchInput) {

@@ -87,11 +87,13 @@
 
   <!-- ===== FILTERS & SORT ===== -->
   <section class="filter-section" id="filter-section" aria-label="Filter and Sort fragrances">
-    <div class="sort-bar">
+    <div class="search-row">
       <div class="search-container">
         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         <input type="text" id="search-input" class="search-bar" placeholder="Search name or house..." aria-label="Search fragrances">
       </div>
+    </div>
+    <div class="sort-row">
       <select id="sort-select" class="sort-select" aria-label="Sort fragrances">
         <option value="default">Sort: Default</option>
         <option value="az">Sort: A to Z</option>
@@ -101,30 +103,59 @@
       </select>
     </div>
     <div class="filter-bar" role="tablist">
-      <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true" id="filter-all">All</button>
-      <button class="filter-btn" data-filter="smoky" role="tab" aria-selected="false" id="filter-smoky">Smoky</button>
-      <button class="filter-btn" data-filter="fresh" role="tab" aria-selected="false" id="filter-fresh">Fresh</button>
-      <button class="filter-btn" data-filter="woody" role="tab" aria-selected="false" id="filter-woody">Woody</button>
-      <button class="filter-btn" data-filter="spicy" role="tab" aria-selected="false" id="filter-spicy">Spicy</button>
-      <button class="filter-btn" data-filter="dark" role="tab" aria-selected="false" id="filter-dark">Dark</button>
-      <button class="filter-btn" data-filter="sweet" role="tab" aria-selected="false" id="filter-sweet">Sweet</button>
-      <button class="filter-btn" data-filter="fruity" role="tab" aria-selected="false"
-        id="filter-fruity">Fruity</button>
-      <button class="filter-btn" data-filter="vanilla" role="tab" aria-selected="false"
-        id="filter-vanilla">Vanilla</button>
-      <button class="filter-btn" data-filter="tropical" role="tab" aria-selected="false"
-        id="filter-tropical">Tropical</button>
-      <button class="filter-btn" data-filter="citrus" role="tab" aria-selected="false"
-        id="filter-citrus">Citrus</button>
-      <button class="filter-btn" data-filter="floral" role="tab" aria-selected="false" id="filter-floral">Floral</button>
-      <button class="filter-btn" data-filter="aromatic" role="tab" aria-selected="false" id="filter-aromatic">Aromatic</button>
-      <button class="filter-btn" data-filter="green" role="tab" aria-selected="false" id="filter-green">Green</button>
-      <button class="filter-btn" data-filter="gourmand" role="tab" aria-selected="false" id="filter-gourmand">Gourmand</button>
-      <button class="filter-btn" data-filter="amber" role="tab" aria-selected="false" id="filter-amber">Amber</button>
-      <button class="filter-btn" data-filter="clean" role="tab" aria-selected="false" id="filter-clean">Clean</button>
-      <button class="filter-btn" data-filter="musky" role="tab" aria-selected="false" id="filter-musky">Musky</button>
-      <button class="filter-btn" data-filter="aquatic" role="tab" aria-selected="false" id="filter-aquatic">Aquatic</button>
-      <button class="filter-btn" data-filter="mossy" role="tab" aria-selected="false" id="filter-mossy">Mossy</button>
+      <!-- Group 1 -->
+      <div class="filter-group">
+        <span class="filter-group-label">Fresh and clean</span>
+        <div class="filter-pill-container">
+          <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true" id="filter-all">All</button>
+          <button class="filter-btn" data-filter="fresh" role="tab" aria-selected="false" id="filter-fresh">Fresh</button>
+          <button class="filter-btn" data-filter="citrus" role="tab" aria-selected="false" id="filter-citrus">Citrus</button>
+          <button class="filter-btn" data-filter="aquatic" role="tab" aria-selected="false" id="filter-aquatic">Aquatic</button>
+          <button class="filter-btn" data-filter="clean" role="tab" aria-selected="false" id="filter-clean">Clean</button>
+          <button class="filter-btn" data-filter="green" role="tab" aria-selected="false" id="filter-green">Green</button>
+        </div>
+      </div>
+
+      <!-- Group 2 -->
+      <div class="filter-group">
+        <span class="filter-group-label">Sweet and warm</span>
+        <div class="filter-pill-container">
+          <button class="filter-btn" data-filter="sweet" role="tab" aria-selected="false" id="filter-sweet">Sweet</button>
+          <button class="filter-btn" data-filter="vanilla" role="tab" aria-selected="false" id="filter-vanilla">Vanilla</button>
+          <button class="filter-btn" data-filter="gourmand" role="tab" aria-selected="false" id="filter-gourmand">Gourmand</button>
+          <button class="filter-btn" data-filter="amber" role="tab" aria-selected="false" id="filter-amber">Amber</button>
+          <button class="filter-btn" data-filter="fruity" role="tab" aria-selected="false" id="filter-fruity">Fruity</button>
+        </div>
+      </div>
+      
+      <!-- Collapsed groups -->
+      <div class="filter-expanded-groups" id="filter-expanded-groups" style="display: none;">
+        <!-- Group 3 -->
+        <div class="filter-group">
+          <span class="filter-group-label">Earthy and bold</span>
+          <div class="filter-pill-container">
+            <button class="filter-btn" data-filter="woody" role="tab" aria-selected="false" id="filter-woody">Woody</button>
+            <button class="filter-btn" data-filter="smoky" role="tab" aria-selected="false" id="filter-smoky">Smoky</button>
+            <button class="filter-btn" data-filter="spicy" role="tab" aria-selected="false" id="filter-spicy">Spicy</button>
+            <button class="filter-btn" data-filter="musky" role="tab" aria-selected="false" id="filter-musky">Musky</button>
+          </div>
+        </div>
+        <!-- Group 4 -->
+        <div class="filter-group">
+          <span class="filter-group-label">Other families</span>
+          <div class="filter-pill-container">
+            <button class="filter-btn" data-filter="floral" role="tab" aria-selected="false" id="filter-floral">Floral</button>
+            <button class="filter-btn" data-filter="aromatic" role="tab" aria-selected="false" id="filter-aromatic">Aromatic</button>
+            <button class="filter-btn" data-filter="tropical" role="tab" aria-selected="false" id="filter-tropical">Tropical</button>
+            <button class="filter-btn" data-filter="dark" role="tab" aria-selected="false" id="filter-dark">Dark</button>
+            <button class="filter-btn" data-filter="mossy" role="tab" aria-selected="false" id="filter-mossy">Mossy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-expand-row">
+        <button class="filter-expand-btn" id="filter-expand-btn">+9 more</button>
+      </div>
     </div>
   </section>
 
