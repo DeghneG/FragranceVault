@@ -1608,11 +1608,32 @@ button {
 }
 
 /* Pill Checkboxes */
+.pill-group-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: 8px;
+}
+
+.pill-category {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.pill-category-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-left: var(--space-xs);
+}
+
 .pill-group {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
 }
 
 .pill-checkbox input {
@@ -1621,9 +1642,9 @@ button {
 
 .pill-checkbox .pill-text {
   display: inline-block;
-  padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   font-size: 0.85rem;
@@ -1633,13 +1654,30 @@ button {
 }
 
 .pill-checkbox input:checked + .pill-text {
-  background: rgba(201, 168, 76, 0.2);
+  background: var(--gold-primary);
   border-color: var(--gold-primary);
-  color: var(--gold-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
 }
 
 .pill-checkbox:hover .pill-text {
-  border-color: rgba(201, 168, 76, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-expand-btn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--gold-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: var(--space-xs);
+  margin-top: -var(--space-sm);
+}
+
+.modal-expand-btn:hover {
+  text-decoration: underline;
 }
 
 /* ===== MUSIC PROMPT ===== */

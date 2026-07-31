@@ -388,18 +388,18 @@ filterBtns.forEach(btn => {
   });
 });
 
-/* ===== FILTER EXPAND LOGIC ===== */
-const expandBtn = document.getElementById("filter-expand-btn");
-const expandedGroups = document.getElementById("filter-expanded-groups");
+/* ===== MODAL EXPAND LOGIC ===== */
+const modalExpandBtn = document.getElementById("modal-expand-btn");
+const modalExpandedGroups = document.getElementById("modal-expanded-groups");
 
-if (expandBtn && expandedGroups) {
-  expandBtn.addEventListener("click", () => {
-    if (expandedGroups.style.display === "none") {
-      expandedGroups.style.display = "flex";
-      expandBtn.textContent = "Show less";
+if (modalExpandBtn && modalExpandedGroups) {
+  modalExpandBtn.addEventListener("click", () => {
+    if (modalExpandedGroups.style.display === "none") {
+      modalExpandedGroups.style.display = "flex";
+      modalExpandBtn.textContent = "Show less";
     } else {
-      expandedGroups.style.display = "none";
-      expandBtn.textContent = "+9 more";
+      modalExpandedGroups.style.display = "none";
+      modalExpandBtn.textContent = "+9 more";
     }
   });
 }
