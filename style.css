@@ -354,7 +354,6 @@ button {
   justify-content: center;
   align-items: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1; /* Keep text and effects constrained within stacking context */
 }
 
 .btn-add span:not(:last-child) {
@@ -367,12 +366,13 @@ button {
   background-color: #c9a84c;
   border-radius: 50%;
   transition: .6s ease;
-  z-index: -1; /* Place below text */
+  pointer-events: none;
 }
 
 .btn-add span:last-child {
   position: relative;
   z-index: 1;
+  pointer-events: none;
 }
 
 .btn-add span:nth-child(1) { transform: translate(-3.3em, -4em); }
