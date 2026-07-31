@@ -63,6 +63,28 @@
         <span></span>
         <span>Add New</span>
       </button>
+      <script>
+        (function() {
+          var btn = document.getElementById('btn-add-new');
+          var spans = btn.querySelectorAll('span:not(:last-child)');
+          var rest = ['translate(-3.3em,-4em)','translate(-6em,1.3em)','translate(-.2em,1.8em)','translate(3.5em,1.4em)','translate(3.5em,-3.8em)'];
+          spans.forEach(function(s, i) {
+            s.style.cssText = 'position:absolute;left:50%;top:50%;width:30px;height:30px;background:#c9a84c;border-radius:50%;pointer-events:none;transition:transform 0.6s ease;transform:' + rest[i];
+          });
+          btn.addEventListener('mouseenter', function() {
+            spans.forEach(function(s) {
+              s.style.transition = 'transform 1.5s ease';
+              s.style.transform = 'translate(-50%,-50%) scale(4)';
+            });
+          });
+          btn.addEventListener('mouseleave', function() {
+            spans.forEach(function(s, i) {
+              s.style.transition = 'transform 0.6s ease';
+              s.style.transform = rest[i];
+            });
+          });
+        })();
+      </script>
     </div>
   </nav>
 
