@@ -354,7 +354,7 @@ button {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-add span:not(:nth-child(6)) {
+.btn-add .circle {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -365,40 +365,42 @@ button {
   border-radius: 50%;
   transition: .6s ease;
   z-index: 0;
+  pointer-events: none;
 }
 
-.btn-add span:nth-child(6) {
+.btn-add .text {
   position: relative;
   z-index: 1;
   transition: color 0.3s ease;
+  pointer-events: none;
 }
 
-.btn-add span:nth-child(1) {
+.btn-add .circle:nth-child(1) {
   transform: translate(-3.3em, -4em);
 }
 
-.btn-add span:nth-child(2) {
+.btn-add .circle:nth-child(2) {
   transform: translate(-6em, 1.3em);
 }
 
-.btn-add span:nth-child(3) {
+.btn-add .circle:nth-child(3) {
   transform: translate(-.2em, 1.8em);
 }
 
-.btn-add span:nth-child(4) {
+.btn-add .circle:nth-child(4) {
   transform: translate(3.5em, 1.4em);
 }
 
-.btn-add span:nth-child(5) {
+.btn-add .circle:nth-child(5) {
   transform: translate(3.5em, -3.8em);
 }
 
-.btn-add:hover span:not(:nth-child(6)) {
+.btn-add:hover .circle {
   transform: translate(-50%, -50%) scale(5);
   transition: 1.5s ease;
 }
 
-.btn-add:hover span:nth-child(6) {
+.btn-add:hover .text {
   color: var(--bg-primary);
 }
 
