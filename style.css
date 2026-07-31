@@ -74,6 +74,8 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--bg-primary);
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -376,28 +378,28 @@ button {
 }
 
 .btn-add .circle:nth-child(1) {
-  transform: translate(-3.3em, -4em);
+  transform: translate(-1.5em, -2em);
 }
 
 .btn-add .circle:nth-child(2) {
-  transform: translate(-6em, 1.3em);
+  transform: translate(-2.5em, 0.5em);
 }
 
 .btn-add .circle:nth-child(3) {
-  transform: translate(-.2em, 1.8em);
+  transform: translate(-0.2em, 1.2em);
 }
 
 .btn-add .circle:nth-child(4) {
-  transform: translate(3.5em, 1.4em);
+  transform: translate(1.5em, 0.5em);
 }
 
 .btn-add .circle:nth-child(5) {
-  transform: translate(3.5em, -3.8em);
+  transform: translate(1.5em, -2em);
 }
 
 .btn-add:hover .circle {
   transform: translate(-50%, -50%) scale(5) !important;
-  transition: 1.5s ease;
+  transition: 0.8s ease;
 }
 
 .btn-add:hover .text {
