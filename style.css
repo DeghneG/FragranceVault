@@ -74,7 +74,7 @@ html {
 body {
   font-family: var(--font-body);
   background-color: var(--bg-primary);
-  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre-big.png');
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
@@ -178,7 +178,7 @@ button {
   left: 0;
   right: 0;
   z-index: 100;
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-2xl);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -220,6 +220,8 @@ button {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-heading);
+  line-height: 1.25;
+  text-align: center;
 }
 
 .navbar-title span {
@@ -229,7 +231,7 @@ button {
   letter-spacing: 0.25em;
   font-weight: 400;
   font-family: var(--font-body);
-  margin-top: -2px;
+  margin-top: 4px;
 }
 
 .nav-actions {

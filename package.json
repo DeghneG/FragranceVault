@@ -34,6 +34,7 @@
     "xmlchars": "^2.2.0"
   },
   "scripts": {
+    "dev": "npx http-server -p 8080",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
