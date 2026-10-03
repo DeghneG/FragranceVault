@@ -3,13 +3,12 @@
 import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { TextPlugin } from "gsap/TextPlugin";
-
-gsap.registerPlugin(TextPlugin);
 
 export function VaultLoader({ onComplete }: { onComplete: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const dialRef = useRef<SVGGElement>(null);
   const [visible, setVisible] = useState(true);
+  const [currentNumber, setCurrentNumber] = useState(0);
 
   useGSAP(() => {
     const tl = gsap.timeline({
@@ -19,102 +18,211 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
       },
     });
 
-    // 1. Fade in the status text
-    tl.fromTo(
-      ".vault-status",
-      { opacity: 0 },
-      { opacity: 1, duration: 0.4 }
-    );
+    // Animate the number display to simulate ticking
+    const tickNumbers = (target: number, direction: 1 | -1, duration: number) => {
+      // We'll animate a proxy object and update state in onUpdate
+      const proxy = { val: currentNumber };
+      return gsap.to(proxy, {
+        val: target,
+        duration,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          // Wrap numbers 0-99
+          const v = Math.round(proxy.val) % 100;
+          setCurrentNumber(v < 0 ? v + 100 : v);
+        },
+      });
+    };
 
-    // 2. Type out "ACCESSING VAULT"
-    tl.to(".vault-status", {
+    // 1. Fade in
+    tl.fromTo(containerRef.current, { opacity: 0 }, { opacity: 1, duration: 0.4 });
+
+    // 2. Status text appears
+    tl.fromTo(".vault-label", { opacity: 0 }, { opacity: 1, duration: 0.3 });
+
+    // 3. Dial rotates RIGHT → land on 32
+    tl.add(() => {
+      const proxy = { val: 0 };
+      gsap.to(proxy, {
+        val: 32,
+        duration: 1.6,
+        ease: "power2.inOut",
+        onUpdate: () => setCurrentNumber(Math.round(proxy.val) % 100),
+      });
+    });
+    tl.to(dialRef.current, {
+      rotation: 360 + 115, // full turn + offset
+      duration: 1.6,
+      ease: "power2.inOut",
+      transformOrigin: "center center",
+    });
+
+    // Tick mark flash for first number
+    tl.to(".tick-1", { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" });
+
+    // 4. Dial rotates LEFT → land on 16
+    tl.add(() => {
+      const proxy = { val: 32 };
+      gsap.to(proxy, {
+        val: 16,
+        duration: 1.2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          const v = Math.round(proxy.val) % 100;
+          setCurrentNumber(v < 0 ? v + 100 : v);
+        },
+      });
+    });
+    tl.to(dialRef.current, {
+      rotation: 360 + 115 - 220, // reverse
       duration: 1.2,
-      text: { value: "ACCESSING VAULT..." },
-      ease: "none",
+      ease: "power2.inOut",
+      transformOrigin: "center center",
     });
 
-    // 3. Progress bar fills
-    tl.to(
-      ".vault-progress-fill",
-      { width: "100%", duration: 1.4, ease: "power2.inOut" },
-      "-=0.3"
-    );
+    // Tick mark flash for second number
+    tl.to(".tick-2", { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" });
 
-    // 4. Brief pause, then scramble to "ACCESS GRANTED"
-    tl.to(".vault-status", {
-      duration: 0.05,
-      text: { value: "ACCESS GRANTED" },
-      ease: "none",
-      delay: 0.3,
+    // 5. Dial rotates RIGHT → land on 08
+    tl.add(() => {
+      const proxy = { val: 16 };
+      gsap.to(proxy, {
+        val: 8,
+        duration: 0.8,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          const v = Math.round(proxy.val) % 100;
+          setCurrentNumber(v < 0 ? v + 100 : v);
+        },
+      });
+    });
+    tl.to(dialRef.current, {
+      rotation: 360 + 115 - 220 + 140,
+      duration: 0.8,
+      ease: "power2.inOut",
+      transformOrigin: "center center",
     });
 
-    // 5. Flash the granted indicator
+    // Tick mark flash for third number
+    tl.to(".tick-3", { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" });
+
+    // 6. Brief hold, then "OPEN" flash
+    tl.to(".vault-number", { opacity: 0, duration: 0.2, delay: 0.3 });
     tl.fromTo(
-      ".vault-granted",
-      { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.4)" }
+      ".vault-open",
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }
     );
 
-    // 6. Hold, then split the vault doors open
-    tl.to(
-      ".vault-door-left",
-      { xPercent: -100, duration: 0.8, ease: "power3.inOut", delay: 0.5 },
-    );
-    tl.to(
-      ".vault-door-right",
-      { xPercent: 100, duration: 0.8, ease: "power3.inOut" },
-      "<" // sync with left door
-    );
-
-    // 7. Fade out the entire overlay
-    tl.to(containerRef.current, {
-      opacity: 0,
+    // 7. Pulse the ring
+    tl.to(".dial-ring", {
+      stroke: "#C4A47C",
+      strokeWidth: 3,
       duration: 0.3,
       ease: "power2.out",
+    });
+
+    // 8. Dissolve everything
+    tl.to(containerRef.current, {
+      opacity: 0,
+      scale: 1.05,
+      duration: 0.6,
+      ease: "power2.inOut",
+      delay: 0.4,
     });
   }, { scope: containerRef });
 
   if (!visible) return null;
 
+  // Generate tick marks around the dial
+  const ticks = Array.from({ length: 40 }, (_, i) => {
+    const angle = (i / 40) * 360 - 90;
+    const rad = (angle * Math.PI) / 180;
+    const isMajor = i % 5 === 0;
+    const r1 = isMajor ? 88 : 92;
+    const r2 = 96;
+    return (
+      <line
+        key={i}
+        x1={100 + r1 * Math.cos(rad)}
+        y1={100 + r1 * Math.sin(rad)}
+        x2={100 + r2 * Math.cos(rad)}
+        y2={100 + r2 * Math.sin(rad)}
+        stroke={isMajor ? "#C4A47C" : "#333"}
+        strokeWidth={isMajor ? 1.5 : 0.5}
+        opacity={isMajor ? 0.8 : 0.4}
+      />
+    );
+  });
+
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-8"
       style={{ backgroundColor: "#0A0A0A" }}
     >
-      {/* Left vault door */}
-      <div className="vault-door-left absolute inset-y-0 left-0 w-1/2 bg-[#0A0A0A] z-10 border-r border-[#1a1a1a]" />
-      {/* Right vault door */}
-      <div className="vault-door-right absolute inset-y-0 right-0 w-1/2 bg-[#0A0A0A] z-10 border-l border-[#1a1a1a]" />
+      {/* Label */}
+      <p className="vault-label font-mono text-[10px] tracking-[0.5em] uppercase text-[#C4A47C]/60 opacity-0">
+        Combination Lock
+      </p>
 
-      {/* Center content (sits between the doors) */}
-      <div className="relative z-20 flex flex-col items-center gap-8">
-        {/* Lock icon */}
-        <svg
-          className="vault-granted w-8 h-8 text-[#C4A47C] opacity-0"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      {/* Dial */}
+      <div className="relative w-52 h-52">
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          {/* Outer ring */}
+          <circle
+            className="dial-ring"
+            cx="100"
+            cy="100"
+            r="96"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="1"
+          />
+          {/* Inner ring */}
+          <circle
+            cx="100"
+            cy="100"
+            r="80"
+            fill="none"
+            stroke="#1a1a1a"
+            strokeWidth="0.5"
+          />
+
+          {/* Rotating tick group */}
+          <g ref={dialRef}>
+            {ticks}
+          </g>
+
+          {/* Fixed pointer at top */}
+          <polygon
+            points="100,2 96,12 104,12"
+            fill="#C4A47C"
+          />
         </svg>
 
-        {/* Status text */}
-        <p
-          className="vault-status font-mono text-xs tracking-[0.4em] uppercase text-[#C4A47C] opacity-0 min-h-[1.5em]"
-          aria-live="polite"
-        >
-          &nbsp;
-        </p>
-
-        {/* Progress bar */}
-        <div className="w-48 h-[1px] bg-[#1a1a1a] relative overflow-hidden">
-          <div className="vault-progress-fill absolute inset-y-0 left-0 w-0 bg-[#C4A47C]" />
+        {/* Center number display */}
+        <div className="vault-number absolute inset-0 flex items-center justify-center">
+          <span className="font-mono text-4xl tracking-wider text-[#C4A47C] tabular-nums">
+            {String(currentNumber).padStart(2, "0")}
+          </span>
         </div>
+
+        {/* OPEN text (hidden initially) */}
+        <div className="vault-open absolute inset-0 flex items-center justify-center opacity-0">
+          <span className="font-mono text-2xl tracking-[0.4em] text-[#C4A47C] uppercase">
+            Open
+          </span>
+        </div>
+      </div>
+
+      {/* Cracked combo display */}
+      <div className="flex items-center gap-4 font-mono text-sm tracking-wider">
+        <span className="tick-1 text-[#C4A47C] opacity-0 scale-50">32</span>
+        <span className="text-[#333]">/</span>
+        <span className="tick-2 text-[#C4A47C] opacity-0 scale-50">16</span>
+        <span className="text-[#333]">/</span>
+        <span className="tick-3 text-[#C4A47C] opacity-0 scale-50">08</span>
       </div>
     </div>
   );
