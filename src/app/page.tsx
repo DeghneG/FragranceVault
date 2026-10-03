@@ -4,6 +4,7 @@ import { RightPane } from "@/components/RightPane";
 import { Fragrance } from "@/lib/schema";
 import { AudioControls } from "@/components/AudioControls";
 import { SceneWrapper } from "@/components/SceneWrapper";
+import { LeftPane } from "@/components/LeftPane";
 
 // Ensure this page is dynamically rendered since data can change frequently
 export const dynamic = "force-dynamic";
@@ -38,21 +39,10 @@ export default async function Home() {
       <main className="flex flex-col md:flex-row min-h-screen">
         {/* LEFT PANE: Sticky Editorial & 3D */}
         <section className="relative w-full md:w-1/3 md:sticky md:top-0 h-auto md:h-screen p-8 md:p-12 flex flex-col justify-between border-b md:border-b-0 md:border-r border-surface z-10 bg-base">
-          <div>
-            <h1 className="font-serif text-5xl leading-none mb-2 tracking-tight">
-              GabFrag<br />Vault
-            </h1>
-            <p className="text-sm tracking-widest uppercase text-accent font-medium mb-12">Private Collection</p>
-            
-            <p className="font-serif text-3xl leading-snug text-ink/80 max-w-sm mb-8">
-              A Library of My<br />
-              <span className="text-accent italic">Growing Perfume</span><br />
-              Collections
-            </p>
-          </div>
+          <LeftPane />
 
           {/* 3D Element Container */}
-          <div className="flex-grow min-h-[300px] w-full relative my-8 pointer-events-none">
+          <div className="flex-grow min-h-[200px] w-full relative my-4 pointer-events-none">
              <SceneWrapper />
           </div>
 

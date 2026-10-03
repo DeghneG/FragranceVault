@@ -54,22 +54,22 @@ export default function Scene() {
         <Float speed={1} rotationIntensity={0.5} floatIntensity={1}>
           <group rotation={[0.2, 0.5, 0]}>
             {/* Main thick amber ribbon representing the core scent */}
-            <SmokeRibbon color="#C4A47C" width={3} length={12} speed={0.4} offset={0} />
+            <SmokeRibbon color="#D4B896" width={4} length={14} speed={0.4} offset={0} />
             
             {/* Secondary thin green ribbon representing a specific note (like vetiver) */}
-            <SmokeRibbon color="#4A5D4E" width={1} length={16} speed={0.5} offset={2} invert />
+            <SmokeRibbon color="#6B8070" width={1.5} length={18} speed={0.5} offset={2} invert />
             
             {/* Tertiary bright highlight thread */}
-            <SmokeRibbon color="#E8E6E1" width={0.2} length={20} speed={0.6} offset={5} />
+            <SmokeRibbon color="#F0EDE8" width={0.5} length={22} speed={0.6} offset={5} />
             
             {/* Fine mist/sillage particles hanging in the air */}
             <Sparkles 
-              count={80} 
-              scale={6} 
-              size={1} 
-              speed={0.2} 
-              opacity={0.3} 
-              color="#C4A47C" 
+              count={120} 
+              scale={7} 
+              size={1.5} 
+              speed={0.3} 
+              opacity={0.5} 
+              color="#D4B896" 
             />
           </group>
         </Float>
