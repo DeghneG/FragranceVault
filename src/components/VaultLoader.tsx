@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -9,30 +9,15 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
   const dialRef = useRef<SVGGElement>(null);
   const [visible, setVisible] = useState(true);
   const [currentNumber, setCurrentNumber] = useState(0);
+  const [ready, setReady] = useState(false);
 
   useGSAP(() => {
     const tl = gsap.timeline({
       onComplete: () => {
-        setVisible(false);
-        onComplete();
+        // Don't auto-dismiss — wait for user click
+        setReady(true);
       },
     });
-
-    // Animate the number display to simulate ticking
-    const tickNumbers = (target: number, direction: 1 | -1, duration: number) => {
-      // We'll animate a proxy object and update state in onUpdate
-      const proxy = { val: currentNumber };
-      return gsap.to(proxy, {
-        val: target,
-        duration,
-        ease: "power2.inOut",
-        onUpdate: () => {
-          // Wrap numbers 0-99
-          const v = Math.round(proxy.val) % 100;
-          setCurrentNumber(v < 0 ? v + 100 : v);
-        },
-      });
-    };
 
     // 1. Fade in
     tl.fromTo(containerRef.current, { opacity: 0 }, { opacity: 1, duration: 0.4 });
@@ -40,7 +25,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
     // 2. Status text appears
     tl.fromTo(".vault-label", { opacity: 0 }, { opacity: 1, duration: 0.3 });
 
-    // 3. Dial rotates RIGHT → land on 32
+    // 3. Dial rotates RIGHT → land on 07
     tl.add(() => {
       const proxy = { val: 0 };
       gsap.to(proxy, {
@@ -51,7 +36,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
       });
     });
     tl.to(dialRef.current, {
-      rotation: 360 + 115, // full turn + offset
+      rotation: 360 + 115,
       duration: 1.6,
       ease: "power2.inOut",
       transformOrigin: "center center",
@@ -60,7 +45,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
     // Tick mark flash for first number
     tl.to(".tick-1", { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" });
 
-    // 4. Dial rotates LEFT → land on 16
+    // 4. Dial rotates LEFT → land on 10
     tl.add(() => {
       const proxy = { val: 7 };
       gsap.to(proxy, {
@@ -74,7 +59,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
       });
     });
     tl.to(dialRef.current, {
-      rotation: 360 + 115 - 220, // reverse
+      rotation: 360 + 115 - 220,
       duration: 1.2,
       ease: "power2.inOut",
       transformOrigin: "center center",
@@ -83,7 +68,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
     // Tick mark flash for second number
     tl.to(".tick-2", { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" });
 
-    // 5. Dial rotates RIGHT → land on 08
+    // 5. Dial rotates RIGHT → land on 06
     tl.add(() => {
       const proxy = { val: 10 };
       gsap.to(proxy, {
@@ -106,7 +91,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
     // Tick mark flash for third number
     tl.to(".tick-3", { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" });
 
-    // 6. Brief hold, then "OPEN" flash
+    // 6. Hide the number, show OPEN button
     tl.to(".vault-number", { opacity: 0, duration: 0.2, delay: 0.3 });
     tl.fromTo(
       ".vault-open",
@@ -122,15 +107,22 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
       ease: "power2.out",
     });
 
-    // 8. Dissolve everything
-    tl.to(containerRef.current, {
+    // Timeline stops here — waiting for click
+  }, { scope: containerRef });
+
+  const handleOpen = useCallback(() => {
+    if (!ready) return;
+    gsap.to(containerRef.current, {
       opacity: 0,
       scale: 1.05,
       duration: 0.6,
       ease: "power2.inOut",
-      delay: 0.4,
+      onComplete: () => {
+        setVisible(false);
+        onComplete();
+      },
     });
-  }, { scope: containerRef });
+  }, [ready, onComplete]);
 
   if (!visible) return null;
 
@@ -158,7 +150,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-8"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-10"
       style={{ backgroundColor: "#0A0A0A" }}
     >
       {/* Label */}
@@ -166,8 +158,8 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
         Combination Lock
       </p>
 
-      {/* Dial */}
-      <div className="relative w-52 h-52">
+      {/* Dial — larger size */}
+      <div className="relative w-72 h-72 md:w-80 md:h-80">
         <svg viewBox="0 0 200 200" className="w-full h-full">
           {/* Outer ring */}
           <circle
@@ -203,16 +195,19 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
 
         {/* Center number display */}
         <div className="vault-number absolute inset-0 flex items-center justify-center">
-          <span className="font-mono text-4xl tracking-wider text-[#C4A47C] tabular-nums">
+          <span className="font-mono text-5xl tracking-wider text-[#C4A47C] tabular-nums">
             {String(currentNumber).padStart(2, "0")}
           </span>
         </div>
 
-        {/* OPEN text (hidden initially) */}
+        {/* OPEN button (hidden initially, clickable) */}
         <div className="vault-open absolute inset-0 flex items-center justify-center opacity-0">
-          <span className="font-mono text-2xl tracking-[0.4em] text-[#C4A47C] uppercase">
+          <button
+            onClick={handleOpen}
+            className="font-mono text-3xl tracking-[0.4em] text-[#C4A47C] uppercase cursor-pointer hover:text-[#E8D5B5] transition-colors duration-300 bg-transparent border-none outline-none"
+          >
             Open
-          </span>
+          </button>
         </div>
       </div>
 
