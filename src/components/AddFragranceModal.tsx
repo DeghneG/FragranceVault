@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useVault } from "./VaultProvider";
-import { FragranceSchema } from "@/lib/schema";
+import { FragranceSchema, Fragrance } from "@/lib/schema";
 import { z } from "zod";
 
 const FAMILIES = [
@@ -37,7 +37,7 @@ export function AddFragranceModal({ onClose, editItem }: { onClose: () => void, 
   const toggleFamily = (fam: string) => {
     setFormData(prev => {
       if (prev.family.includes(fam)) {
-        return { ...prev, family: prev.family.filter(f => f !== fam) };
+        return { ...prev, family: prev.family.filter((f: string) => f !== fam) };
       }
       return { ...prev, family: [...prev.family, fam] };
     });
@@ -88,7 +88,7 @@ export function AddFragranceModal({ onClose, editItem }: { onClose: () => void, 
         throw new Error("Fragrance Image is required");
       }
 
-      const tags = formData.notes.split("/").map(s => s.trim()).filter(Boolean);
+      const tags = formData.notes.split("/").map((s: string) => s.trim()).filter(Boolean);
 
       const parsedData = FragranceSchema.parse({
         name: formData.name,
@@ -116,7 +116,7 @@ export function AddFragranceModal({ onClose, editItem }: { onClose: () => void, 
       onClose();
     } catch (err) {
       if (err instanceof z.ZodError) {
-        setError(err.errors[0].message);
+        setError(err.errors[0]?.message || "Validation failed");
       } else if (err instanceof Error) {
         setError(err.message);
       } else {

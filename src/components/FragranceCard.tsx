@@ -20,7 +20,7 @@ export function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
   };
 
   // Custom easing defined in rules
-  const easeOut = [0.23, 1, 0.32, 1];
+  const easeOut: [number, number, number, number] = [0.23, 1, 0.32, 1];
 
   return (
     <motion.div
