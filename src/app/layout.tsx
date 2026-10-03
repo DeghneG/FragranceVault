@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Bodoni_Moda, Outfit } from "next/font/google";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  weight: ["300", "400", "500", "600", "700"],
+const bodoni = Bodoni_Moda({
+  weight: ["400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-bodoni",
 });
 
 const outfit = Outfit({
@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${outfit.variable}`}>
+    <html lang="en" className={`${bodoni.variable} ${outfit.variable}`}>
       <body className="antialiased min-h-[100dvh] bg-base text-ink selection:bg-accent/30 selection:text-ink">
         <SmoothScroll>
           {children}
