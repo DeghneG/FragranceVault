@@ -29,7 +29,7 @@ export function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.25, ease: easeOut }}
-      className="group flex flex-col gap-4"
+      className="group flex flex-col gap-3"
     >
       {/* Image container: no rounded corners, gallery-like */}
       <div 
@@ -74,7 +74,7 @@ export function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
         <p className="text-sm text-ink/60 uppercase tracking-wider">{fragrance.notes}</p>
         
         {/* Performance metrics */}
-        <div className="mt-3 flex flex-col gap-2">
+        <div className="mt-2 flex flex-col gap-2">
           <div className="flex items-center gap-3">
             <span className="text-[10px] uppercase tracking-widest text-ink/50 w-16">Longevity</span>
             <div className="flex-1 h-[2px] bg-surface relative">
@@ -99,7 +99,7 @@ export function FragranceCard({ fragrance }: { fragrance: Fragrance }) {
         </div>
 
         {/* Tags */}
-        <div className="mt-4 flex flex-wrap gap-1.5">
+        <div className="mt-2 flex flex-wrap gap-1.5">
           {fragrance.tags?.map((tag, idx) => (
             <span key={idx} className="text-[10px] uppercase tracking-widest bg-surface/50 text-ink/60 px-2 py-1">
               {tag}

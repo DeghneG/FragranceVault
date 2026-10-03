@@ -19,9 +19,9 @@ export function RightPane() {
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
   return (
-    <div className="flex flex-col gap-12 w-full max-w-5xl mx-auto">
+    <div className="flex flex-col gap-6 w-full max-w-5xl mx-auto">
       {/* Top Bar: Search and Sort */}
-      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-surface pb-6">
+      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-surface pb-4">
         <div className="relative w-full sm:w-96 group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/40 group-focus-within:text-accent transition-colors" />
           <input
@@ -116,8 +116,8 @@ export function RightPane() {
       </div>
 
       {/* Grid */}
-      <div className="mt-4">
-        <p className="text-xs uppercase tracking-widest text-ink/50 mb-6">
+      <div className="mt-2">
+        <p className="text-xs uppercase tracking-widest text-ink/50 mb-4">
           Showing {filteredCollection.length} {filteredCollection.length === 1 ? "Item" : "Items"}
         </p>
         
@@ -128,7 +128,7 @@ export function RightPane() {
         ) : (
           <motion.div 
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             <AnimatePresence>
               {filteredCollection.map((frag) => (
