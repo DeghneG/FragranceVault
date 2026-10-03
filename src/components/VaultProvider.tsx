@@ -27,28 +27,9 @@ export function VaultProvider({ children, initialData }: { children: React.React
   const [sortOrder, setSortOrder] = useState("default");
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // 1. Hydrate from Local Storage on mount
   React.useEffect(() => {
-    const local = localStorage.getItem("localFragrances");
-    if (local) {
-      try {
-        const parsed = JSON.parse(local);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setCollection(parsed);
-        }
-      } catch (e) {
-        console.error("Failed to parse local fragrances", e);
-      }
-    }
     setIsLoaded(true);
   }, []);
-
-  // 2. Sync changes back to Local Storage
-  React.useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("localFragrances", JSON.stringify(collection));
-    }
-  }, [collection, isLoaded]);
 
   const toggleFilter = (filter: string) => {
     setActiveFilters((prev) => {
@@ -74,14 +55,15 @@ export function VaultProvider({ children, initialData }: { children: React.React
     const newFrag = { ...frag, id: tempId };
     setCollection((prev) => [...prev, newFrag]);
     
-    // Attempt Supabase sync, but don't fail if offline
     try {
       const { data, error } = await supabase.from("fragrances").insert([frag]).select();
-      if (!error && data && data.length > 0) {
+      if (error) {
+        console.error("Supabase insert error:", error);
+      } else if (data && data.length > 0) {
         setCollection((prev) => prev.map(f => f.id === tempId ? data[0] as Fragrance : f));
       }
     } catch (e) {
-      console.warn("Supabase sync failed, item saved locally.", e);
+      console.error("Supabase sync failed.", e);
     }
   };
 
