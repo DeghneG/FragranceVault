@@ -54,7 +54,7 @@ export default async function Home() {
           </section>
 
           {/* RIGHT PANE: Scrolling Gallery */}
-          <section className="w-full md:w-2/3 min-h-screen p-8 md:p-12 overflow-y-auto">
+          <section className="w-full md:w-2/3 min-h-screen p-8 md:p-12">
             <RightPane />
           </section>
         </main>

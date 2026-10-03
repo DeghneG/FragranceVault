@@ -54,17 +54,7 @@ export function LeftPane() {
         <h1 className="font-serif text-5xl leading-none mb-2 tracking-tight">
           GabFrag<br />Vault
         </h1>
-        <div className="flex items-center gap-2 mb-8">
-          <svg className="w-3.5 h-3.5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-          <span className="text-sm tracking-widest uppercase text-accent font-medium">Access Granted</span>
-          <span className="relative flex h-2 w-2 ml-1">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-        </div>
+
 
         <p className="font-serif text-3xl leading-snug text-ink/80 max-w-sm mb-8">
           A Library of My<br />
