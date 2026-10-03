@@ -44,7 +44,7 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
     tl.add(() => {
       const proxy = { val: 0 };
       gsap.to(proxy, {
-        val: 32,
+        val: 7,
         duration: 1.6,
         ease: "power2.inOut",
         onUpdate: () => setCurrentNumber(Math.round(proxy.val) % 100),
@@ -62,9 +62,9 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
 
     // 4. Dial rotates LEFT → land on 16
     tl.add(() => {
-      const proxy = { val: 32 };
+      const proxy = { val: 7 };
       gsap.to(proxy, {
-        val: 16,
+        val: 10,
         duration: 1.2,
         ease: "power2.inOut",
         onUpdate: () => {
@@ -85,9 +85,9 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
 
     // 5. Dial rotates RIGHT → land on 08
     tl.add(() => {
-      const proxy = { val: 16 };
+      const proxy = { val: 10 };
       gsap.to(proxy, {
-        val: 8,
+        val: 6,
         duration: 0.8,
         ease: "power2.inOut",
         onUpdate: () => {
@@ -218,11 +218,11 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
 
       {/* Cracked combo display */}
       <div className="flex items-center gap-4 font-mono text-sm tracking-wider">
-        <span className="tick-1 text-[#C4A47C] opacity-0 scale-50">32</span>
+        <span className="tick-1 text-[#C4A47C] opacity-0 scale-50">07</span>
         <span className="text-[#333]">/</span>
-        <span className="tick-2 text-[#C4A47C] opacity-0 scale-50">16</span>
+        <span className="tick-2 text-[#C4A47C] opacity-0 scale-50">10</span>
         <span className="text-[#333]">/</span>
-        <span className="tick-3 text-[#C4A47C] opacity-0 scale-50">08</span>
+        <span className="tick-3 text-[#C4A47C] opacity-0 scale-50">06</span>
       </div>
     </div>
   );
