@@ -201,10 +201,10 @@ export function VaultLoader({ onComplete }: { onComplete: () => void }) {
         </div>
 
         {/* OPEN button (hidden initially, clickable) */}
-        <div className="vault-open absolute inset-0 flex items-center justify-center opacity-0">
+        <div className="vault-open absolute inset-2 opacity-0 z-10 rounded-full overflow-hidden">
           <button
             onClick={handleOpen}
-            className="font-mono text-3xl tracking-[0.4em] text-[#C4A47C] uppercase cursor-pointer hover:text-[#E8D5B5] transition-colors duration-300 bg-transparent border-none outline-none"
+            className="w-full h-full flex items-center justify-center font-mono text-3xl tracking-[0.4em] text-[#C4A47C] uppercase cursor-pointer hover:text-[#E8D5B5] hover:bg-[#C4A47C]/5 transition-all duration-300 bg-transparent border-none outline-none"
           >
             Open
           </button>
