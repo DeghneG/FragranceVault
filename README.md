@@ -1,11 +1,36 @@
-# FragranceVault
-fragrance collection ko ah
-🌟 GabFrag Vault
-A beautifully designed, luxury-focused web application built to catalog and explore a growing fragrance collection.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Key Features:
+## Getting Started
 
-Premium Aesthetic: Styled with modern, high-end editorial fonts (Cormorant Garamond & Outfit) and glassmorphism UI elements to reflect the luxury of the fragrances themselves.
-Smart Local Memory: Includes an offline-first failsafe that instantly saves new entries and image edits securely to the browser's local storage, ensuring zero data loss even when cloud connections are blocked.
-Dynamic Sorting & Filtering: Users can effortlessly filter by scent family (Smoky, Fresh, Woody, etc.) or sort the entire collection alphabetically and chronologically.
-Performance Metrics: Visual sliders track Longevity, Sillage, and Scent ratings, rendering them directly onto beautiful interactive display cards.
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
