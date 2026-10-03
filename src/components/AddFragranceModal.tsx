@@ -116,7 +116,7 @@ export function AddFragranceModal({ onClose, editItem }: { onClose: () => void, 
       onClose();
     } catch (err) {
       if (err instanceof z.ZodError) {
-        setError(err.errors[0]?.message || "Validation failed");
+        setError((err as any).errors[0]?.message || "Validation failed");
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
